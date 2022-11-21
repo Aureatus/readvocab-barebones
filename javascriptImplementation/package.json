@@ -1,0 +1,17 @@
+{
+  "name": "javascriptimplementation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^2.0.20",
+    "pdfjs-dist": "^3.0.279",
+    "wordpos": "^2.1.0"
+  }
+}
