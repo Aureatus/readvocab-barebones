@@ -1,4 +1,5 @@
 import pkg from "pdfjs-dist";
+import WordPOS from "wordpos";
 const { getDocument } = pkg;
 
 const punctuationFilter = (wordList) => {
@@ -25,4 +26,12 @@ const getWords = async (dir) => {
   return trimmedWords;
 };
 
-export { getWords };
+const deleteNouns = async (wordList) => {
+  const wordpos = new WordPOS();
+  const text = wordList.toString().replaceAll(",", " ");
+  const Nouns = await wordpos.getNouns(text);
+  const noNounWordList = wordList.filter((word) => !Nouns.includes(word));
+  return noNounWordList;
+};
+
+export { getWords, deleteNouns };
