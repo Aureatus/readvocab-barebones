@@ -36,7 +36,23 @@ const deleteNouns = async (wordList) => {
 };
 
 const findRareWords = (wordList, numberOfWords) => {
-  const corpus = corpusObject();
+  const corpus = corpusObject([
+    "NoC",
+    "Prep",
+    "Neg",
+    "Num",
+    "NoP",
+    "NoP-",
+    "Lett",
+    "Int",
+    "Inf",
+    "Conj",
+    "Pron",
+    "Det",
+    "DetP",
+    "Gen",
+    "Ex",
+  ]);
   const uniqueWords = [...new Set(wordList)]; // Remove duplicate words from wordList
   const filteredWordList = uniqueWords.filter((word) =>
     corpus.getWordFrequency(word)
