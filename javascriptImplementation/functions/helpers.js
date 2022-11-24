@@ -1,3 +1,4 @@
+import nlp from "compromise/three";
 import { corpusObject } from "corpus-word-freq";
 import pkg from "pdfjs-dist";
 import WordPOS from "wordpos";
@@ -53,8 +54,21 @@ const findRareWords = (wordList, numberOfWords) => {
     "Gen",
     "Ex",
   ]);
-  const uniqueWords = [...new Set(wordList)]; // Remove duplicate words from wordList
-  const filteredWordList = uniqueWords.filter((word) =>
+  let uniqueWords = [...new Set(wordList)]; // Remove duplicate words from wordList
+
+  let filteredWordList = uniqueWords.map((word) => {
+    const doc = nlp(word);
+    const adjective = doc.adjectives().conjugate().adjective?.text().trim();
+    if (adjective) return adjective;
+    const verb = doc.verbs().toInfinitive().text().trim();
+    if (verb) return verb;
+    const noun = doc.nouns().toSingular().text().trim();
+    if (noun) return noun;
+  });
+
+  uniqueWords = [...new Set(filteredWordList)];
+
+  filteredWordList = uniqueWords.filter((word) =>
     corpus.getWordFrequency(word)
   );
 
