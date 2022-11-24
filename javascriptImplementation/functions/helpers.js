@@ -40,6 +40,15 @@ const removeDuplicates = (wordList) => {
   return [...new Set(wordList)];
 };
 
+const convertAdjectiveToAbsolute = (doc) => {
+  doc.adjectives().conjugate().adjective?.text().trim();
+};
+
+const convertVerbToInfinitive = (doc) =>
+  doc.verbs().toInfinitive().text().trim();
+
+const convertNounToSingular = (doc) => doc.nouns().toSingular().text().trim();
+
 const findRareWords = (wordList, numberOfWords) => {
   const corpus = corpusObject([
     "NoC",
@@ -62,11 +71,14 @@ const findRareWords = (wordList, numberOfWords) => {
 
   let filteredWordList = uniqueWords.map((word) => {
     const doc = nlp(word);
-    const adjective = doc.adjectives().conjugate().adjective?.text().trim();
+
+    const adjective = convertAdjectiveToAbsolute(doc);
     if (adjective) return adjective;
-    const verb = doc.verbs().toInfinitive().text().trim();
+
+    const verb = convertVerbToInfinitive(doc);
     if (verb) return verb;
-    const noun = doc.nouns().toSingular().text().trim();
+
+    const noun = convertNounToSingular(doc);
     if (noun) return noun;
   });
 
