@@ -83,4 +83,15 @@ const findRareWords = (wordList, numberOfWords) => {
   return rareWords;
 };
 
-export { getWords, deleteNouns, findRareWords };
+const getDefinitions = async (wordList) => {
+  const wordpos = new WordPOS();
+  const definitions = await Promise.all(
+    wordList.map(async (word) => {
+      const wordInfo = await wordpos.lookup(word);
+      return wordInfo[0]?.def;
+    })
+  );
+  return definitions;
+};
+
+export { getWords, deleteNouns, findRareWords, getDefinitions };
