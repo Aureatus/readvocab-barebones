@@ -10,6 +10,10 @@ const punctuationFilter = (wordList) => {
   return wordList.replaceAll(invalidCharRegex, " ");
 };
 
+const removeDuplicates = (wordList) => {
+  return [...new Set(wordList)];
+};
+
 const getWords = async (dir) => {
   const doc = await getDocument(dir).promise;
   const docPages = doc.numPages;
@@ -25,11 +29,8 @@ const getWords = async (dir) => {
   const words = normalizedText.split(" ");
 
   const trimmedWords = words.map((word) => word.trim());
-  return trimmedWords;
-};
-
-const removeDuplicates = (wordList) => {
-  return [...new Set(wordList)];
+  const uniqueWords = removeDuplicates(trimmedWords);
+  return uniqueWords;
 };
 
 const convertWordForms = (wordList) => {
@@ -65,11 +66,10 @@ const findRareWords = (wordList, numberOfWords) => {
     "Gen",
     "Ex",
   ]);
-  let uniqueWords = removeDuplicates(wordList);
 
-  let filteredWordList = convertWordForms(uniqueWords);
+  let filteredWordList = convertWordForms(wordList);
 
-  uniqueWords = removeDuplicates(filteredWordList);
+  const uniqueWords = removeDuplicates(filteredWordList);
 
   filteredWordList = uniqueWords.filter((word) =>
     corpus.getWordFrequency(word)
