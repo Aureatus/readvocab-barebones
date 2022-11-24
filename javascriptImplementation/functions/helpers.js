@@ -36,6 +36,10 @@ const deleteNouns = async (wordList) => {
   return noNounWordList;
 };
 
+const removeDuplicates = (wordList) => {
+  return [...new Set(wordList)];
+};
+
 const findRareWords = (wordList, numberOfWords) => {
   const corpus = corpusObject([
     "NoC",
@@ -54,7 +58,7 @@ const findRareWords = (wordList, numberOfWords) => {
     "Gen",
     "Ex",
   ]);
-  let uniqueWords = [...new Set(wordList)]; // Remove duplicate words from wordList
+  let uniqueWords = removeDuplicates(wordList);
 
   let filteredWordList = uniqueWords.map((word) => {
     const doc = nlp(word);
@@ -66,7 +70,7 @@ const findRareWords = (wordList, numberOfWords) => {
     if (noun) return noun;
   });
 
-  uniqueWords = [...new Set(filteredWordList)];
+  uniqueWords = removeDuplicates(filteredWordList);
 
   filteredWordList = uniqueWords.filter((word) =>
     corpus.getWordFrequency(word)
