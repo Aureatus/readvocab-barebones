@@ -1,4 +1,4 @@
-import { getWordFrequency } from "corpus-word-freq";
+import { corpusObject } from "corpus-word-freq";
 import pkg from "pdfjs-dist";
 import WordPOS from "wordpos";
 const { getDocument } = pkg;
@@ -36,12 +36,15 @@ const deleteNouns = async (wordList) => {
 };
 
 const findRareWords = (wordList, numberOfWords) => {
+  const corpus = corpusObject();
   const uniqueWords = [...new Set(wordList)]; // Remove duplicate words from wordList
-  const filteredWordList = uniqueWords.filter((word) => getWordFrequency(word));
+  const filteredWordList = uniqueWords.filter((word) =>
+    corpus.getWordFrequency(word)
+  );
 
   filteredWordList.sort((a, b) => {
-    const freqA = getWordFrequency(a);
-    const freqB = getWordFrequency(b);
+    const freqA = corpus.getWordFrequency(a);
+    const freqB = corpus.getWordFrequency(b);
     if (freqA > freqB) return 1;
     if (freqA < freqB) return -1;
     return 0;
