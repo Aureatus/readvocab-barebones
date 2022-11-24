@@ -41,13 +41,12 @@ const removeDuplicates = (wordList) => {
 };
 
 const convertAdjectiveToAbsolute = (doc) => {
-  doc.adjectives().conjugate().adjective?.text().trim();
+  doc.adjectives().conjugate().adjective?.text();
 };
 
-const convertVerbToInfinitive = (doc) =>
-  doc.verbs().toInfinitive().text().trim();
+const convertVerbToInfinitive = (doc) => doc.verbs().toInfinitive().text();
 
-const convertNounToSingular = (doc) => doc.nouns().toSingular().text().trim();
+const convertNounToSingular = (doc) => doc.nouns().toSingular().text();
 
 const findRareWords = (wordList, numberOfWords) => {
   const corpus = corpusObject([
