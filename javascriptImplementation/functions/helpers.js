@@ -40,25 +40,17 @@ const removeDuplicates = (wordList) => {
   return [...new Set(wordList)];
 };
 
-const convertAdjectiveToAbsolute = (doc) => {
-  doc.adjectives().conjugate().adjective?.text();
-};
-
-const convertVerbToInfinitive = (doc) => doc.verbs().toInfinitive().text();
-
-const convertNounToSingular = (doc) => doc.nouns().toSingular().text();
-
 const convertWordForms = (wordList) => {
   return wordList.map((word) => {
     const doc = nlp(word);
 
-    const adjective = convertAdjectiveToAbsolute(doc);
+    const adjective = doc.adjectives().conjugate().adjective?.text();
     if (adjective) return adjective;
 
-    const verb = convertVerbToInfinitive(doc);
+    const verb = doc.verbs().toInfinitive().text();
     if (verb) return verb;
 
-    const noun = convertNounToSingular(doc);
+    const noun = doc.nouns().toSingular().text();
     if (noun) return noun;
   });
 };
