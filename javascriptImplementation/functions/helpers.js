@@ -28,14 +28,6 @@ const getWords = async (dir) => {
   return trimmedWords;
 };
 
-const deleteNouns = async (wordList) => {
-  const wordpos = new WordPOS();
-  const text = wordList.toString().replaceAll(",", " ");
-  const Nouns = await wordpos.getNouns(text);
-  const noNounWordList = wordList.filter((word) => !Nouns.includes(word));
-  return noNounWordList;
-};
-
 const removeDuplicates = (wordList) => {
   return [...new Set(wordList)];
 };
@@ -105,4 +97,4 @@ const getDefinitions = async (wordList) => {
   return definitions;
 };
 
-export { getWords, deleteNouns, findRareWords, getDefinitions };
+export { getWords, findRareWords, getDefinitions };
