@@ -50,7 +50,6 @@ const convertWordForms = (wordList) => {
 
 const findRareWords = (wordList, numberOfWords) => {
   const corpus = corpusObject([
-    "NoC",
     "Prep",
     "Neg",
     "Num",
@@ -71,18 +70,7 @@ const findRareWords = (wordList, numberOfWords) => {
 
   const uniqueWords = removeDuplicates(filteredWordList);
 
-  filteredWordList = uniqueWords.filter((word) =>
-    corpus.getWordFrequency(word)
-  );
-
-  filteredWordList.sort((a, b) => {
-    const freqA = corpus.getWordFrequency(a);
-    const freqB = corpus.getWordFrequency(b);
-    if (freqA > freqB) return 1;
-    if (freqA < freqB) return -1;
-    return 0;
-  });
-  const rareWords = filteredWordList.slice(0, numberOfWords);
+  const rareWords = corpus.getMatchedWords(uniqueWords, 20);
   return rareWords;
 };
 
