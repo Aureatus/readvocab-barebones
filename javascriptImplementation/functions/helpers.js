@@ -64,14 +64,14 @@ const findRareWords = (wordList, numberOfWords) => {
     "DetP",
     "Gen",
     "Ex",
+    "Uncl",
+    "Fore",
   ]);
 
-  let filteredWordList = convertWordForms(wordList);
-
-  const uniqueWords = removeDuplicates(filteredWordList);
-
-  const rareWords = corpus.getMatchedWords(uniqueWords, 20);
-  return rareWords;
+  const uniqueWords = removeDuplicates(wordList);
+  const rareWordObjects = corpus.getMatchedWords(uniqueWords, numberOfWords);
+  const rareWords = rareWordObjects.map((wordObject) => wordObject.word);
+  return rareWordObjects;
 };
 
 const getDefinitions = async (wordList) => {
