@@ -75,10 +75,25 @@ const findRareWords = (wordList, numberOfWords) => {
 };
 
 const getDefinitions = async (wordList) => {
-  const wordpos = new WordPOS();
+  const wordSearch = new WordPOS();
   const definitions = await Promise.all(
-    wordList.map(async (word) => {
-      const wordInfo = await wordpos.lookup(word);
+    wordList.map(async (wordObject) => {
+      const getWordInfo = async () => {
+        switch (wordObject.PoS) {
+          case "Verb":
+            return await wordSearch.lookupVerb(wordObject.word);
+          case "Adj":
+            return await wordSearch.lookupAdjective(wordObject.word);
+          case "Adv":
+            return await wordSearch.lookupAdverb(wordObject.word);
+          default:
+            return await wordSearch.lookup(wordObject.word);
+        }
+      };
+
+      const wordInfo = await getWordInfo();
+      if (wordInfo.length === 0) return null;
+
       return wordInfo[0]?.def;
     })
   );
